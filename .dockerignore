@@ -1,5 +1,3 @@
-.editorconfig
-.git
-*.md
-*.yml
-app.json
+_build/
+.git/
+Dockerfile
