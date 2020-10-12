@@ -1,3 +1,17 @@
-FROM ruby:2.3.3
-RUN gem install garufa
-CMD garufa -v --app_id 12345 --app_key 765ec374ae0a69f4ce44 --secret 123ec374ae0a69f4ce00 -p $PORT
+FROM parroty/docker-elixir
+MAINTAINER parroty <xxxxxx@gmail.com>
+
+## Prerequisites ##
+RUN mix do local.rebar, local.hex --force
+
+## Fetch the phoenix application ##
+WORKDIR /usr/local/lib
+RUN git clone https://github.com/edgurgel/poxa.git
+
+## Compile ##
+WORKDIR poxa
+RUN mix do deps.get, compile
+
+CMD ["mix", "run", "--no-halt"]
+
+EXPOSE $PORT
