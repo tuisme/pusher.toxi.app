@@ -1,3 +1,3 @@
 FROM ruby:2.3.3
 RUN gem install slanger
-CMD slanger --app_key ${APP_KEY} --secret ${APP_SECRET} -r redis://${REDIS_HOST}:${REDIS_PORT}/${REDIS_DB}
+CMD slanger --app_key 765ec374ae0a69f4ce44 --secret 123ec374ae0a69f4ce00
