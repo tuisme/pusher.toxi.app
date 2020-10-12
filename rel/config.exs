@@ -18,7 +18,7 @@ environment :dev do
 end
 
 environment :prod do
-  set include_erts: true
+  set include_erts: false
   set include_src: false
   set cookie: :"xR=}b(ZcHU8M1Lu&642.m{u{O)H]WD>[&&_5t8FW3t5mxy4nw=de~;lEbw*?EFXC"
 end
@@ -30,3 +30,4 @@ release :poxa do
   ]
   plugin Conform.ReleasePlugin
 end
+

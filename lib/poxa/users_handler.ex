@@ -10,7 +10,9 @@ defmodule Poxa.UsersHandler do
   alias Poxa.Channel
 
   @doc false
-  def init(req, state), do: {:cowboy_rest, req, state}
+  def init(_transport, _req, _opts) do
+    {:upgrade, :protocol, :cowboy_rest}
+  end
 
   @doc false
   def allowed_methods(req, state) do
@@ -21,7 +23,7 @@ defmodule Poxa.UsersHandler do
   The request is malformed if the channel is not a presence channel
   """
   def malformed_request(req, _state) do
-    channel = :cowboy_req.binding(:channel_name, req)
+    {channel, req} = :cowboy_req.binding(:channel_name, req)
     {!Channel.presence?(channel), req, channel}
   end
 
@@ -47,7 +49,8 @@ defmodule Poxa.UsersHandler do
 
   """
   def get_json(req, channel) do
-    response = PresenceChannel.users(channel) |> Enum.map(fn id -> %{id: id} end)
-    {Jason.encode!(%{users: response}), req, nil}
+    response = PresenceChannel.users(channel) |> Enum.map(fn(id) -> [id: id] end)
+    {Poison.encode!(users: response), req, nil}
   end
 end
+
